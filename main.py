@@ -45,7 +45,6 @@ def gradient_descent(start_x, start_y, function, learning_rate, eps):
     prev_y = start_y
     condition = 1
     res = []
-    points = []
 
     while condition:
         grad = calculate_gradient(prev_x, prev_y, function)
