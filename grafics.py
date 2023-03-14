@@ -19,6 +19,7 @@ if type == "middle":
     r = 0.5
 if type == "select":
     r = float(input("Enter any equipment[0;1]):"))
+    r = 0.0
 x = []
 y = []
 dn = 1 / n
