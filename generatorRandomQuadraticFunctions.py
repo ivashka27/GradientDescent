@@ -17,12 +17,15 @@ def function(n, k):
 
     random.shuffle(mass)
 
-    print(mass[0],'* (X 00)^2', end="")
+    if __name__ == '__main__':
+        print(mass[0],'* (X 0 )^2', end="")
+        for i in range(1, n):
+            print(' +', mass[i],"(X",i,")^2", end="")
 
-    for i in range(1, n):
-        print(' +', mass[i],"(X",i*11,")^2", end="")
+    return mass
 
 
 if __name__ == '__main__':
     n, k = map(int, input().split())
-    function(n, k)
+    q = function(n, k)
+    x = [1] * n
