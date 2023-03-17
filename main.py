@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 # f(x, y) = ax^2 + by^2 + cxy + dx + ey + f
 
@@ -83,6 +84,31 @@ def gradient_descent(start_x, start_y, function, learning_rate, eps):
         prev_x = new_x
         prev_y = new_y
     return [res, cnt_function, cnt_gradient]
+
+
+# generate_function -- генератор случайных квадратичных
+
+
+def generate_function(n, k):
+    if k == 0:
+        return [0 for i in range(n)]
+
+    a = random.uniform(k + 1, 100)
+    b = a / k
+
+    coefficients = [a, b]
+
+    for i in range(2, n):
+        coefficients.append(random.uniform(b + 1, a - 1))
+
+    random.shuffle(coefficients)
+
+    # if __name__ == '__main__':
+    #     print(coefficients[0],'* (X 0 )^2', end="")
+    #     for i in range(1, n):
+    #         print(' +', coefficients[i],"(X",i,")^2", end="")
+
+    return coefficients
 
 
 f1 = make_function(1.0, 1.0, 0.0, 0.0, 0.0, 0.0)
