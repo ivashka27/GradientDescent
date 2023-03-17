@@ -1,34 +1,56 @@
-from generatorRandomQuadraticFunctions import function
 import random
 import numpy as np
 
 
+def function(n, k):
 
+    if k == 0:
+        return [0]*n
 
-n = random.sample(range(2, 10), 10)
-k = random.sample(range(1, 10), 10)
+    a = random.uniform(k + 1, 100)
+    b = a / k
+
+    mass = list()
+    mass.append(a)
+    mass.append(b)
+
+    for i in range(2, n):
+         mass.append(random.uniform(b + 1, a - 1))
+
+    random.shuffle(mass)
+    return mass
+
+dimension = random.sample(range(2, 13), 10)
+conditionality = random.sample(range(1, 13), 10)
 
 step = 0.01
 startApp = 2
 epsilon = 2e-4
 chart = []
 
-x = [1] # мжет пойти нахуй
+print(dimension)
+print(conditionality)
 
+test = 0
 
-for n in range(len(n)):
-    for k in range(len(k)):
+for n in range(len(dimension)):
+    for i in range(len(conditionality)):
+        test += 1
 
-        col = 0
-
-        mass = function(n, k)
+        mass = function(dimension[n], conditionality[i])
         massNew = np.array(mass) * 2
-        for k in range(len(mass)):
-            mass[k + 1] = mass[k] - step * massNew[k]
-            while abs(mass[k + 1] - mass[k]) >= epsilon:
-                mass[k + 1] = mass[k] - step * massNew[k]
 
-        # massNew = 2 * np.array(mass)
+        for j in range(len(mass)):
+            print("прошел")
+            col = 1
+            mass[j + 1] = mass[j] - step * massNew[j]
+
+            while abs(mass[j + 1] - mass[j]) > epsilon:
+
+                mass[j + 1] = mass[j] - col * step * massNew[j]
+                col += 1
+            chart.append(col)
 
         # проверка на то что функция убывает - f(xk - ak * f'(xk)) < f(xk)
-        while ():
+print(test)
+print(chart)
