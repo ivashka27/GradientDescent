@@ -20,8 +20,9 @@ def function(n, k):
     random.shuffle(mass)
     return mass
 
-dimension = random.sample(range(2, 13), 10)
-conditionality = random.sample(range(1, 13), 10)
+
+dimension = random.sample(range(1, 1000), 10)
+conditionality = random.sample(range(1, 1000), 10)
 
 step = 0.01
 startApp = 2
