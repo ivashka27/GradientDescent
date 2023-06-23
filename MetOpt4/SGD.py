@@ -12,21 +12,27 @@ def allmet(x, y, mod, Model, func):
     model = Model()
     if (mod == "sgd"):
         optimizer = optim.SGD(model.parameters(), lr=0.01)
+        num_epochs = 100
     elif (mod == "adam"):
-        optimizer = optim.Adam(model.parameters(), lr=0.01)
+        optimizer = optim.Adam(model.parameters(), lr=0.4)
+        num_epochs = 16
     elif (mod == "rmsprop"):
-        optimizer = optim.RMSprop(model.parameters(), lr=0.01)
+        optimizer = optim.RMSprop(model.parameters(), lr=0.1)
+        num_epochs = 100
     elif (mod == "adagrad"):
-        optimizer = optim.Adagrad(model.parameters(), lr=0.01)
+        optimizer = optim.Adagrad(model.parameters(), lr=0.1)
+        num_epochs = 10 ** 4
     elif (mod == "momentum"):
         optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+        num_epochs = 100
     elif (mod == "nesterov"):
         optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, nesterov=True)
+        num_epochs = 100
     else:
         print("введен не корректный mod")
         return 0
 
-    num_epochs = 100
+
 
     for epoch in range(num_epochs):
         optimizer.zero_grad()
@@ -52,7 +58,6 @@ def allmet(x, y, mod, Model, func):
     plt.plot(x.numpy(), predicted, label='Fitted line')
     plt.plot(x_start, y_start)
     plt.legend()
-
     plt.show()
 
 
@@ -71,4 +76,4 @@ class Model(torch.nn.Module):
     def forward(self, x):
         return self.linear(x)
 
-allmet(x, y, "sgd", Model, func)
+allmet(x, y, "nesterov", Model, func)
