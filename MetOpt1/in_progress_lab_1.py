@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
+
 # f(x, y) = ax^2 + by^2 + cxy + dx + ey + f
 
 
@@ -18,11 +19,11 @@ def calculate_gradient(x, y, coefficient):
 
 def get_function_value(x, y, function):
     return function['a'] * x ** 2 + \
-        function['b'] * y ** 2 + \
-        function['c'] * x * y + \
-        function['d'] * x + \
-        function['e'] * y + \
-        function['f']
+           function['b'] * y ** 2 + \
+           function['c'] * x * y + \
+           function['d'] * x + \
+           function['e'] * y + \
+           function['f']
 
 
 def get_function_points_value(x, y, function):
@@ -81,6 +82,7 @@ def gradient_descent(start_x, start_y, function, learning_rate, eps):
         res += [(new_x, new_y)]
         if abs(prev_x - new_x) <= eps and abs(prev_y - new_y) <= eps:
             break
+
         prev_x = new_x
         prev_y = new_y
     return [res, cnt_function, cnt_gradient]
@@ -111,6 +113,8 @@ def generate_function(n, k):
     return coefficients
 
 
+
+
 f1 = make_function(1.0, 1.0, 0.0, 0.0, 0.0, 0.0)
 f2 = make_function(2.0, 6.0, 0.0, 15.0, 2.0, 0.0)
 
@@ -128,20 +132,23 @@ print("function calls:", res2[1], ", gradient calls:", res2[2])
 # res1 теперь выглядит как [массив точек, кол-во вызова функции, кол-во вычисления градиента],
 # res2 и прочие -- по аналогии
 
-# # draw function graph
-# t = np.linspace(-20, 10, 100)
-# X, Y = np.meshgrid(t, t)
-# Z = np.array(get_function_points_value(X, Y, f2))
-# fig, ax1 = plt.subplots(1)
-# fig = plt.figure().add_subplot(projection='3d')
-# fig.plot_surface(X, Y, Z)
-# ##
-#
-# points = np.array(res2)
-# # draw gradient move
-# ax1.plot(points[:, 0], points[:, 1], 'o-')
-# ax1.grid()
-# ax1.contour(X, Y, Z, levels=sorted([get_function_value(p[0], p[1], f2) for p in points]))
-# ##
-#
-# plt.show()
+# draw function graph
+t = np.linspace(-20, 10, 100)
+X, Y = np.meshgrid(t, t)
+#print(X.size)
+Z = np.array(get_function_points_value(X, Y, f2))
+#print(Z)
+fig, ax1 = plt.subplots(1)
+fig = plt.figure().add_subplot(projection='3d')
+fig.plot_surface(X, Y, Z)
+##
+
+points = np.array(res2[0])
+print(points)
+# draw gradient move
+ax1.plot(points[:, 0], points[:, 1], 'o-')
+ax1.grid()
+ax1.contour(X, Y, Z, levels=sorted([get_function_value(p[0], p[1], f2) for p in points]))
+##
+
+plt.show()
