@@ -4,14 +4,6 @@ import tensorflow as tf
 import time
 import psutil as psutil
 
-start = time.time()
-
-x = 2.0
-
-
-def function(x):
-    return x**2 + 2*x + 1
-
 
 def pyTorch(f, x):
     start = time.time()
@@ -19,21 +11,17 @@ def pyTorch(f, x):
     y = f(x)
     y.backward()
     end = time.time()
-    print('Gradient: ', x.grad.item(),
-          ' time in seconds: ', end - start,
-          ' used memery in bytes: ', psutil.virtual_memory().used,
-          ' used memery in percent: ', psutil.virtual_memory().percent)
+    return x.grad.item(), end - start, psutil.virtual_memory().used, psutil.virtual_memory().percent
 
 
-def atutoGrad(f, x):
+
+def autoGrad(f, x):
     start = time.time()
     grad_f = grad(f)
     gradient = grad_f(x)
     end = time.time()
-    print('Gradient:', gradient,
-          ' time in seconds: ', end - start,
-          ' used memery in bytes: ', psutil.virtual_memory().used,
-          ' used memery in percent: ', psutil.virtual_memory().percent)
+    return gradient, end - start, psutil.virtual_memory().used, psutil.virtual_memory().percent
+
 
 
 def tensor(f ,x):
@@ -43,12 +31,32 @@ def tensor(f ,x):
         y = f(x2)
     grad = tape.gradient(y, x2)
     end = time.time()
-    print('Gradient:', grad.numpy(),
-          ' time in seconds: ', end - start,
-          ' used memery in bytes: ', psutil.virtual_memory().used,
-          ' used memery in percent: ', psutil.virtual_memory().percent)
+    return grad.numpy(), end - start, psutil.virtual_memory().used, psutil.virtual_memory().percent
 
 
-pyTorch(function, x)
-atutoGrad(function, x)
-tensor(function, x)
+
+def function(x):
+    return x**2 + 2*x + 1
+
+
+x = 2.0
+
+massFun = [pyTorch, autoGrad, tensor]
+
+for i in massFun:
+    gradD = 0
+    timeF = 0
+    ramB = 0
+    ramP = 0
+    for j in range(1, 5):
+        funR = i(function, x)
+        gradD += funR[0]
+        timeF += funR[1]
+        ramB += funR[2]
+        ramP += funR[3]
+    print(i, ' Gradient:', gradD / 4,
+          ' time in seconds: ', timeF / 4)
+    print(
+        ' used memery in bytes: ', ramB / 4,
+        ' used memery in percent: ', ramP / 4)
+
